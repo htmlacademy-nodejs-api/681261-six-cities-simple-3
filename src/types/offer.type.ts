@@ -2,7 +2,7 @@ import {Facilities} from './facilities.enum';
 import {ApartmentType} from './apartment-type.enum';
 
 
-export type Offer = {
+export type Ad = {
   name: string;
   description: string;
   createdDate: Date;
