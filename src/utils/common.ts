@@ -1,6 +1,6 @@
-import {Ad} from "../types/offer.type";
-import {ApartmentType} from "../types/apartment-type.enum";
-import {Facilities} from "../types/facilities.enum";
+import {Ad} from '../types/offer.type';
+import {ApartmentType} from '../types/apartment-type.enum';
+import {Facilities} from '../types/facilities.enum';
 
 export const createAd = (row: string) => {
 
@@ -23,8 +23,8 @@ export const createAd = (row: string) => {
     author,
     commentsAmount: Number(commentsAmount),
     coordinates: coordinates.split(',')
-  } as Ad
-}
+  } as Ad;
+};
 
 export const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : '';

@@ -24,9 +24,9 @@ export default class AdGenerator implements AdGeneratorInterface {
     const price = generateRandomValue(1000, 20000);
     const facilities = getRandomItems<string>(this.mockData.facilities);
     const author = 'test author';
-    const commentsAmount = generateRandomValue(1, 10)
+    const commentsAmount = generateRandomValue(1, 10);
     const coordinates = [generateRandomValue(40, generateRandomValue(35, 40, 3)),
-      generateRandomValue(40, generateRandomValue(35, 40, 3))]
+      generateRandomValue(40, generateRandomValue(35, 40, 3))];
 
     const createdDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
 

@@ -1,6 +1,6 @@
 import { MockData } from '../types/src/types/mock-data.type';
 import { CliCommandInterface } from './cli-command.interface.js';
-import AdGenerator from '../common/ad-generator/ad-generator.js'
+import AdGenerator from '../common/ad-generator/ad-generator.js';
 import got from 'got';
 import TSVFileWriter from '../common/file-writer/tsv-file-writer.js';
 

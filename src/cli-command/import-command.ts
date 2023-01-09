@@ -8,9 +8,11 @@ export default class ImportCommand implements CliCommandInterface {
     const offer = createAd(line);
     console.log(offer);
   }
+
   private onComplete(count: number) {
     console.log(`${count} rows imported.`);
   }
+
   public async execute(filename: string): Promise<void> {
     const fileReader = new TSVFileReader(filename.trim());
     fileReader.on('line', this.onLine);
