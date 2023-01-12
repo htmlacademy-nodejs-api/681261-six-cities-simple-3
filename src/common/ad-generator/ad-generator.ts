@@ -3,8 +3,10 @@ import {MockData} from '../../types/src/types/mock-data.type';
 import {getRandomItem, getRandomItems, generateRandomValue} from '../../utils/random.js';
 import dayjs from 'dayjs';
 
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
+const enum WeekDay {
+  First = 1,
+  Last = 7,
+}
 
 export default class AdGenerator implements AdGeneratorInterface {
   constructor(private readonly mockData: MockData) {}
@@ -28,7 +30,7 @@ export default class AdGenerator implements AdGeneratorInterface {
     const coordinates = [generateRandomValue(40, generateRandomValue(35, 40, 3)),
       generateRandomValue(40, generateRandomValue(35, 40, 3))];
 
-    const createdDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
+    const createdDate = dayjs().subtract(generateRandomValue(WeekDay.First, WeekDay.Last), 'day').toISOString();
 
     return [name, description, pictures, createdDate, type, city, preview, isPremium, rating,
       apartmentType, roomsAmount, guestCapacity, price, facilities, author, commentsAmount, coordinates].join('/t');

@@ -2,7 +2,7 @@ import {Ad} from '../types/offer.type';
 import {ApartmentType} from '../types/apartment-type.enum';
 import {Facilities} from '../types/facilities.enum';
 
-export const createAd = (row: string) => {
+export const createAd = (row: string): Ad => {
 
   const tokens = row.replace('\n', '').split('\t');
   const [name, description, createdDate, city, preview, pictures, isPremium, rating, apartmentType, roomsAmount, guestCapacity, price, facilities, author, commentsAmount, coordinates] = tokens;
@@ -23,7 +23,7 @@ export const createAd = (row: string) => {
     author,
     commentsAmount: Number(commentsAmount),
     coordinates: coordinates.split(',')
-  } as Ad;
+  };
 };
 
 export const getErrorMessage = (error: unknown): string =>
