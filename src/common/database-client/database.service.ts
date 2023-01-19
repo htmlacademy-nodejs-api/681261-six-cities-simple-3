@@ -1,8 +1,8 @@
-import {DatabaseInterface} from './database.interface';
+import mongoose from 'mongoose';
 import {inject, injectable} from 'inversify';
 import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../logger/logger.interface.js';
-import * as mongoose from 'mongoose';
+import {DatabaseInterface} from './database.interface.js';
 
 @injectable()
 export default class DatabaseService implements DatabaseInterface {

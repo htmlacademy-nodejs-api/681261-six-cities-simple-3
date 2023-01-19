@@ -14,7 +14,7 @@ export default class Application {
     @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface
   ) {}
 
-  public init() {
+  public async init() {
     this.logger.info('Application initialization…');
     this.logger.info(`Get value from env $PORT: ${this.config.get('PORT')}`);
 

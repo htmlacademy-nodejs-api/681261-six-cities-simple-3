@@ -1,6 +1,7 @@
 import {Ad} from '../types/offer.type';
 import {ApartmentType} from '../types/apartment-type.enum';
 import {Facilities} from '../types/facilities.enum';
+import crypto from 'crypto';
 
 export const createAd = (row: string): Ad => {
 
@@ -28,3 +29,8 @@ export const createAd = (row: string): Ad => {
 
 export const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : '';
+
+export const createSHA256 = (line: string, salt: string): string => {
+  const shaHasher = crypto.createHmac('sha256', salt);
+  return shaHasher.update(line).digest('hex');
+};
