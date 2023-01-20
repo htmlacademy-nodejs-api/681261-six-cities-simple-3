@@ -1,12 +1,13 @@
 import {Facilities} from './facilities.enum';
 import {ApartmentType} from './apartment-type.enum';
+import {CityEnum} from './city.enum.js';
 
 
 export type Ad = {
   name: string;
   description: string;
   createdDate: Date;
-  city: string;
+  city: CityEnum;
   preview: string;
   pictures: string[];
   isPremium: boolean;

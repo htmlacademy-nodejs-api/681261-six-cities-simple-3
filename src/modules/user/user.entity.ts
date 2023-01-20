@@ -12,7 +12,6 @@ export interface UserEntity extends defaultClasses.Base {}
     collection: 'users'
   }
 })
-
 export class UserEntity extends defaultClasses.TimeStamps implements User {
   constructor(data: User) {
     super();
@@ -29,13 +28,13 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({default: 'default.jpg'})
   public avatarImg!: string;
 
-  @prop({required: true, default: '', min: 1, max: 15})
+  @prop({required: true, default: '', minlength: 1, maxlength: 15})
   public name!: string;
 
   @prop({required: true, default: ''})
   public type!: UserType;
 
-  @prop({required: true, default: '', min: 6, max: 12})
+  @prop({required: true, default: '', minlength: 6, maxlength: 12})
   public password!: string;
 
   public setPassword(password: string, salt: string) {
