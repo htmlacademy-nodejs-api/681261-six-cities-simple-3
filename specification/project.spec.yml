@@ -1,0 +1,97 @@
+openapi: 3.1.0
+info:
+  title: API сервер для учебного-проекта «Шесть городов».
+  description: |-
+    * Список ресурсов и маршрутов сервера «Шесть городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+  tags:
+    - name: advertisement
+      description: Действия с объявлениями.
+    - name: comments
+      description: Действия с комментариями.
+    - name: users
+      description: Действия с пользователем.
+  paths:
+    /users/register:
+      post:
+        tags:
+          - users
+        summary: Регистрация пользователя
+        description: Регистрирует нового пользователя.
+
+    /users/login:
+      post:
+        tags:
+          - users
+        summary: Авторизация пользователя
+        description: Авторизует пользователя на основе логина и пароля
+
+      get:
+        tags:
+          - users
+        summary: Проверка состояния пользователя
+        description: Возвращает информацию по авторизованному пользователю
+
+    /users/{userId}/avatar:
+      post:
+        tags:
+          - users
+        summary: Загрузить изображение аватара
+        description: Загружает изображение аватара пользователя. Изображение
+          аватара должно быть в формате `png` или `jpg`.
+
+    /advertisements/create:
+      post:
+        tags:
+          - advertisement
+        summary: Создание новго предложения
+        description: Создает новое предложение по аренде
+
+    /advertisements/{adId}/update:
+      post:
+        tags:
+          - advertisement
+        summary: Редактирование существующего предложения
+        description: Редактирует предложение по аренде
+
+    /advertisements/{adId}/delete:
+      post:
+        tags:
+          - advertisement
+        summary: Удаление существующего предложения
+        description: Удаляет предложение по аренде
+
+    /advertisements:
+      get:
+        tags:
+          - advertisement
+        summary: Возвращает список предложений по аренде
+        description: Получение списка предложений по аренде.
+
+    /advertisements/{adId}:
+      get:
+        tags:
+          - advertisement
+        summary: Возвращает подробную информацию предложения по аренде
+        description: Получение детальной информации о предложении.
+
+    /comments/{adId}:
+      get:
+        tags:
+          - advertisement
+        summary: Возвращает список комментариев для предложения
+        description: Получение списка комментариев для предложения.
+
+    /comments/add/{adId}:
+      get:
+        tags:
+          - advertisement
+        summary: Добавляет комментарий для предложения
+        description: Добавление комментария для предложения.
+
+
+
+
