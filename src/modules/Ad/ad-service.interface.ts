@@ -4,5 +4,6 @@ import {AdEntity} from './ad.entity.js';
 
 export interface AdServiceInterface {
   create(dto: CreateAdDto): Promise<DocumentType<AdEntity>>;
-  findById(id: string): Promise<DocumentType<AdEntity> | null>
+  findById(id: string): Promise<DocumentType<AdEntity> | null>;
+  find(): Promise<DocumentType<AdEntity>[]>;
 }

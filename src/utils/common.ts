@@ -6,7 +6,7 @@ import crypto from 'crypto';
 export const createAd = (row: string) => {
 
   const tokens = row.replace('\n', '').split('\t');
-  const [name, description, createdDate, city, preview, pictures, isPremium, rating, apartmentType, roomsAmount, guestCapacity, price, facilities, author, commentsAmount, coordinates] = tokens;
+  const [name, description, createdDate, city, preview, pictures, isPremium, rating, apartmentType, roomsAmount, guestCapacity, price, facilities, userName, email, password, avatarImg, type, commentsAmount, coordinates] = tokens;
   return {
     name,
     description,
@@ -21,14 +21,10 @@ export const createAd = (row: string) => {
     guestCapacity: Number(guestCapacity),
     price: Number.parseInt(price, 10),
     facilities: facilities.split(',') as Facilities[],
-    author,
+    user: {name: userName, email, password, avatarImg, type},
     commentsAmount: Number(commentsAmount),
     coordinates: coordinates.split(',')
   } as Ad;
-  // раньше city в типе Ad у меня был строкой
-  // потом в ТЗ я нашел что город может быть 1 из 6 вариантов
-  // передлал его на enum и вот если написать что функция createAd
-  // возвращает Ad то на 14 строчке будет ошибка, а если использовать кастинг то нет, почему?
 };
 
 export const getErrorMessage = (error: unknown): string =>

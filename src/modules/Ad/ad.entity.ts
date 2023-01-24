@@ -1,8 +1,8 @@
-import {defaultClasses, getModelForClass, modelOptions, prop} from '@typegoose/typegoose';
-import {Ad} from '../../types/offer.type.js';
+import {defaultClasses, getModelForClass, modelOptions, prop, Ref} from '@typegoose/typegoose';
 import {CityEnum} from '../../types/city.enum.js';
 import {ApartmentType} from '../../types/apartment-type.enum.js';
 import {Facilities} from '../../types/facilities.enum.js';
+import {UserEntity} from '../user/user.entity.js';
 
 export interface AdEntity extends defaultClasses.Base {}
 
@@ -11,27 +11,7 @@ export interface AdEntity extends defaultClasses.Base {}
     collection: 'ad'
   }
 })
-export class AdEntity extends defaultClasses.TimeStamps implements Ad {
-  constructor(data: Ad) {
-    super();
-
-    this.name = data.name;
-    this.description = data.description;
-    this.createdDate = data.createdDate;
-    this.city = data.city;
-    this.preview = data.preview;
-    this.pictures = data.pictures;
-    this.isPremium = data.isPremium;
-    this.rating = data.rating;
-    this.apartmentType = data.apartmentType;
-    this.roomsAmount = data.roomsAmount;
-    this.guestCapacity = data.guestCapacity;
-    this.price = data.price;
-    this.facilities = data.facilities;
-    this.author = data.author;
-    this.commentsAmount = data.commentsAmount;
-    this.coordinates = data.coordinates;
-  }
+export class AdEntity extends defaultClasses.TimeStamps {
 
   @prop({ required: true, minlength: 10, maxlength: 100 })
   public name!: string;
@@ -82,8 +62,11 @@ export class AdEntity extends defaultClasses.TimeStamps implements Ad {
   @prop({required: true})
   public facilities!: Facilities[];
 
-  @prop({required: true})
-  public author!: string;
+  @prop({
+    ref: UserEntity,
+    require: true
+  })
+  public userId!: Ref<UserEntity>;
 
   @prop()
   public commentsAmount!: number;
