@@ -10,4 +10,4 @@ const commentContainer = new Container();
 commentContainer.bind<CommentServiceInterface>(Component.CommentServiceInterface).to(CommentService);
 commentContainer.bind<types.ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
 
-export {commentContainer}
+export {commentContainer};
