@@ -3,6 +3,7 @@ import {CityEnum} from '../../types/city.enum.js';
 import {ApartmentType} from '../../types/apartment-type.enum.js';
 import {Facilities} from '../../types/facilities.enum.js';
 import {UserEntity} from '../user/user.entity.js';
+import {CommentEntity} from '../comment/comment.entity';
 
 export interface AdEntity extends defaultClasses.Base {}
 
@@ -22,7 +23,6 @@ export class AdEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public createdDate!: Date;
 
-  // Почему нелья просто написать String а нужно именно, чтобы функция вернула
   @prop({
     type: () => String,
     enum: CityEnum
@@ -56,9 +56,6 @@ export class AdEntity extends defaultClasses.TimeStamps {
   @prop({required: true, min: 100, max: 100000})
   public price!: number;
 
-  // Как тут правильно написать декоратор?
-  // facilities это масив из конкретных возможных строк
-  // я перечислил их в enume'е
   @prop({required: true})
   public facilities!: Facilities[];
 
@@ -68,10 +65,21 @@ export class AdEntity extends defaultClasses.TimeStamps {
   })
   public userId!: Ref<UserEntity>;
 
-  @prop()
+  @prop({
+    default: 0
+  })
   public commentsAmount!: number;
 
-  // тут тоже вопрос нужно ли в декораторе как-то особенно прописывать что это массив строк
+  @prop({
+    ref: CommentEntity,
+    required: true,
+    default: [],
+    // В доке написано, что это опция отключает добавление ID для sub-documents, не очень понимаю что такое sub-documents
+    // и нужен ли в итоге этот параметр, ведь искать комменты я буду по ID
+    _id: false
+  })
+  public comments!: Ref<CommentEntity[]>;
+
   @prop({required: true})
   public coordinates!: string[];
 }
