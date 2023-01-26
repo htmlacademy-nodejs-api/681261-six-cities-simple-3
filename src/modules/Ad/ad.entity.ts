@@ -74,9 +74,6 @@ export class AdEntity extends defaultClasses.TimeStamps {
     ref: CommentEntity,
     required: true,
     default: [],
-    // В доке написано, что это опция отключает добавление ID для sub-documents, не очень понимаю что такое sub-documents
-    // и нужен ли в итоге этот параметр, ведь искать комменты я буду по ID
-    _id: false
   })
   public comments!: Ref<CommentEntity[]>;
 

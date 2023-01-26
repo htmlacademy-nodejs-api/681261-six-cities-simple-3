@@ -34,8 +34,6 @@ export default class AdService implements AdServiceInterface {
   }
 
   public async updateById(id: string, dto: UpdateAdDto): Promise<DocumentType<AdEntity> | null> {
-    // Вопрос
-    // Тут же не нужен populate? Мы обновляем только само предложение по аренде
     return this.adModel.findByIdAndUpdate(id, dto, {new: true});
   }
 

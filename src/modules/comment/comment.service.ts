@@ -12,9 +12,6 @@ export default class CommentService implements CommentServiceInterface {
     @inject(Component.CommentModel) private commentModel: ModelType<CommentEntity>
   ) {}
 
-  // Вопрос
-  // Если я правильно понимаю мы чтобы найти комменты к одной записи перебираем все комменты в базе, это вобще законно?
-  // Можем рассмотреть пример реализации этого метода через агрегацию?
   public async findByAdId(offerId: string): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel.find({offerId}).populate('userId');
   }
