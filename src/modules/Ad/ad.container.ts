@@ -9,3 +9,5 @@ const adContainer = new Container();
 
 adContainer.bind<AdServiceInterface>(Component.AdServiceInterface).to(AdService);
 adContainer.bind<types.ModelType<AdEntity>>(Component.AdModel).toConstantValue(AdModel);
+
+export {adContainer};

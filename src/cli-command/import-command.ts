@@ -10,11 +10,15 @@ import {AdModel} from '../modules/Ad/ad.entity.js';
 import {Ad} from '../types/offer.type.js';
 import {LoggerInterface} from '../common/logger/logger.interface.js';
 import {DatabaseInterface} from '../common/database-client/database.interface.js';
+import UserService from '../modules/user/user.service.js';
+import {UserServiceInterface} from '../modules/user/user-service.interface.js';
+import {UserModel} from '../modules/user/user.entity.js';
 
 const DEFAULT_DB_PORT = 27017;
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
+  private userService: UserServiceInterface;
   private adService!: AdServiceInterface;
   private databaseService!: DatabaseInterface;
   private logger: LoggerInterface;
@@ -27,12 +31,17 @@ export default class ImportCommand implements CliCommandInterface {
     this.logger = new ConsoleLoggerService();
     this.adService = new AdService(this.logger, AdModel);
     this.databaseService = new DatabaseService(this.logger);
+    this.userService = new UserService(this.logger, UserModel);
   }
 
   private async saveAd(ad: Ad) {
+    const user = await this.userService.findOrCreate({
+      ...ad.user
+    }, this.salt);
 
     await this.adService.create({
-      ...ad
+      ...ad,
+      userId: user.id
     });
   }
 

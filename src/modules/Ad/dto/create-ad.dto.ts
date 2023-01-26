@@ -16,7 +16,7 @@ export default class CreateAdDto {
   guestCapacity!: number;
   price!: number;
   facilities!: Facilities[];
-  author!: string;
+  userId!: string;
   commentsAmount!: number;
   coordinates!: string[];
 }

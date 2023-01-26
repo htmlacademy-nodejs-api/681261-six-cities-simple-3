@@ -6,14 +6,10 @@ import {ModelType} from '@typegoose/typegoose/lib/types.js';
 import {AdEntity} from './ad.entity.js';
 import CreateAdDto from './dto/create-ad.dto.js';
 import {DocumentType} from '@typegoose/typegoose';
+import UpdateAdDto from './dto/update-ad.dto.js';
 
 @injectable()
 export default class AdService implements AdServiceInterface {
-  // ВОПРОС
-  // Мы ожидаем, что при создании класса AdService
-  // будут переданы логгер и модел, что есть модель в данном случае
-  // путаю похожие сущности model, entity, dto объясни еще раз разницу, пожалуйста
-  // для чего нужна каждая из сущностей и как у них зависимости между собой
   constructor(
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.AdModel) private adModel: ModelType<AdEntity>
@@ -25,13 +21,26 @@ export default class AdService implements AdServiceInterface {
     return result;
   }
 
-  //ВОПРОС
-  // откуда в модели берется id?
-  // Это тот самый который наследуется от дефолтного класса?
-  // Что такое .exec() в конце?
-  // если это внутренний id значит ли это, что данный метод не подходит для поиска
-  //объявления по запросу юзера?
   public findById(id: string): Promise<DocumentType<AdEntity> | null> {
-    return this.adModel.findById(id).exec();
+    return this.adModel.findById(id).populate(['userId']).exec();
+  }
+
+  public async find(): Promise<DocumentType<AdEntity>[]> {
+    return this.adModel.find();
+  }
+
+  public async deleteById(id: string): Promise<DocumentType<AdEntity> | null> {
+    return this.adModel.findByIdAndDelete(id);
+  }
+
+  public async updateById(id: string, dto: UpdateAdDto): Promise<DocumentType<AdEntity> | null> {
+    return this.adModel.findByIdAndUpdate(id, dto, {new: true});
+  }
+
+  public async incCommentCount(adId: string): Promise<DocumentType<AdEntity> | null> {
+    return this.adModel
+      .findByIdAndUpdate(adId, {'$inc': {
+        commentsAmount: 1,
+      }}).exec();
   }
 }

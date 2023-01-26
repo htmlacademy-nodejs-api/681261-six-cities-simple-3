@@ -1,6 +1,7 @@
 import {Facilities} from './facilities.enum';
 import {ApartmentType} from './apartment-type.enum';
 import {CityEnum} from './city.enum.js';
+import {User} from './user.type.js';
 
 
 export type Ad = {
@@ -17,7 +18,7 @@ export type Ad = {
   guestCapacity: number;
   price: number;
   facilities: Facilities[];
-  author: string;
+  user: User;
   commentsAmount: number;
   coordinates: string[]
 }

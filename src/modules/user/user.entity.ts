@@ -20,6 +20,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     this.avatarImg = data.avatarImg;
     this.name = data.name;
     this.password = data.password;
+    this.type = data.type;
   }
 
   @prop({ unique: true, required: true })
@@ -34,7 +35,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({required: true, default: ''})
   public type!: UserType;
 
-  @prop({required: true, default: '', minlength: 6, maxlength: 12})
+  @prop({required: true, default: ''})
   public password!: string;
 
   public setPassword(password: string, salt: string) {
