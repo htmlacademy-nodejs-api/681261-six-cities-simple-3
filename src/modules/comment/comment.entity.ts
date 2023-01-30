@@ -1,6 +1,5 @@
 import {defaultClasses, getModelForClass, modelOptions, prop, Ref} from '@typegoose/typegoose';
 import {UserEntity} from '../user/user.entity.js';
-import {AdEntity} from '../Ad/ad.entity.js';
 
 export interface CommentEntity extends defaultClasses.Base {}
 
@@ -24,12 +23,6 @@ export class CommentEntity extends defaultClasses.TimeStamps {
     require: true
   })
   public userId!: Ref<UserEntity>;
-
-  @prop({
-    ref: AdEntity,
-    require: true
-  })
-  public adId!: Ref<AdEntity>;
 }
 
 export const CommentModel = getModelForClass(CommentEntity);

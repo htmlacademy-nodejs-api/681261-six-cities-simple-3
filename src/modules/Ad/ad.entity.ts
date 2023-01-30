@@ -3,7 +3,7 @@ import {CityEnum} from '../../types/city.enum.js';
 import {ApartmentType} from '../../types/apartment-type.enum.js';
 import {Facilities} from '../../types/facilities.enum.js';
 import {UserEntity} from '../user/user.entity.js';
-import {CommentEntity} from '../comment/comment.entity';
+import {CommentEntity} from '../comment/comment.entity.js';
 
 export interface AdEntity extends defaultClasses.Base {}
 
@@ -75,7 +75,7 @@ export class AdEntity extends defaultClasses.TimeStamps {
     required: true,
     default: [],
   })
-  public comments!: Ref<CommentEntity[]>;
+  public comments!: string[];
 
   @prop({required: true})
   public coordinates!: string[];
