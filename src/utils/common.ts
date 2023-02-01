@@ -1,6 +1,8 @@
-import {Ad} from '../types/offer.type';
-import {ApartmentType} from '../types/apartment-type.enum';
-import {Facilities} from '../types/facilities.enum';
+import {Ad} from '../types/offer.type.js';
+import {plainToInstance} from 'class-transformer';
+import {ClassConstructor} from 'class-transformer/types/interfaces/class-constructor.type.js';
+import {ApartmentType} from '../types/apartment-type.enum.js';
+import {Facilities} from '../types/facilities.enum.js';
 import crypto from 'crypto';
 
 export const createAd = (row: string) => {
@@ -34,3 +36,10 @@ export const createSHA256 = (line: string, salt: string): string => {
   const shaHasher = crypto.createHmac('sha256', salt);
   return shaHasher.update(line).digest('hex');
 };
+
+export const fillDTO = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>
+  plainToInstance(someDto, plainObject, {excludeExtraneousValues: true});
+
+export const createErrorObject = (message: string) => ({
+  error: message,
+});

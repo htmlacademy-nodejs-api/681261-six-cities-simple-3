@@ -12,8 +12,8 @@ export default class CommentService implements CommentServiceInterface {
     @inject(Component.CommentModel) private commentModel: ModelType<CommentEntity>
   ) {}
 
-  public async findByAdId(offerId: string): Promise<DocumentType<CommentEntity>[]> {
-    return this.commentModel.find({offerId}).populate('userId');
+  public async findByAdId(adId:string): Promise<DocumentType<CommentEntity>[]> {
+    return this.commentModel.find({adId}).populate('userId');
   }
 
   public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {

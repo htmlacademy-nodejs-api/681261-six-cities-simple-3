@@ -9,5 +9,8 @@ export const Component = {
   AdServiceInterface: Symbol.for('AdServiceInterface'),
   AdModel: Symbol.for('AdModel'),
   CommentServiceInterface: Symbol.for('CommentServiceInterface'),
-  CommentModel: Symbol.for('CommentModel')
+  CommentModel: Symbol.for('CommentModel'),
+  AdController: Symbol.for('AdController'),
+  ExceptionFilterInterface: Symbol.for('ExceptionFilterInterface'),
+  UserController: Symbol.for('UserController')
 } as const;
