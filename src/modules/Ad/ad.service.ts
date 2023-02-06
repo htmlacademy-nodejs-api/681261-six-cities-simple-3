@@ -43,4 +43,9 @@ export default class AdService implements AdServiceInterface {
         commentsAmount: 1,
       }}).exec();
   }
+
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.adModel
+      .exists({_id: documentId})) !== null;
+  }
 }

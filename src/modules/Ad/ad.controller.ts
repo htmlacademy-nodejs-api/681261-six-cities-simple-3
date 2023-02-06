@@ -13,6 +13,10 @@ import HttpError from '../../common/errors/http-error.js';
 import * as core from 'express-serve-static-core';
 import {CommentServiceInterface} from '../comment/comment-service.interface.js';
 import CommentResponse from '../comment/comment.response.js';
+import {ValidateObjectIdMiddleware} from '../../middlewares/validate-objectId.middleware.js';
+import {ValidateDtoMiddleware} from '../../middlewares/validate-dto.middleware.js';
+import UpdateAdDto from './dto/update-ad.dto.js';
+import {DocumentExistsMiddleware} from '../../middlewares/document-exists.middleware.js';
 
 type ParamsGetAd = {
   adId: string
@@ -30,11 +34,54 @@ export default class AdController extends Controller {
     this.logger.info('Register routes for AdController…');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
-    this.addRoute({path: '/create', method: HttpMethod.Post, handler: this.create});
-    this.addRoute({path: '/:adId', method: HttpMethod.Get, handler: this.show});
-    this.addRoute({path: '/:adId', method: HttpMethod.Patch, handler: this.update});
-    this.addRoute({path: '/:adId', method: HttpMethod.Delete, handler: this.delete});
-    this.addRoute({path: '/:adId/comments', method: HttpMethod.Get, handler: this.getComments});
+
+    this.addRoute({
+      path: '/create',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateAdDto)]
+    });
+
+    this.addRoute({
+      path: '/:adId',
+      method: HttpMethod.Get,
+      handler: this.show,
+      middlewares: [
+        new ValidateObjectIdMiddleware('adId'),
+        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId')
+      ]
+    });
+
+    this.addRoute({
+      path: '/:adId',
+      method: HttpMethod.Patch,
+      handler: this.update,
+      middlewares: [
+        new ValidateObjectIdMiddleware('adId'),
+        new ValidateDtoMiddleware(UpdateAdDto),
+        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId')
+      ]
+    });
+
+    this.addRoute({
+      path: '/:adId',
+      method: HttpMethod.Delete,
+      handler: this.delete,
+      middlewares: [
+        new ValidateObjectIdMiddleware('adId'),
+        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId')
+      ]
+    });
+
+    this.addRoute({
+      path: '/:adId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+      middlewares: [
+        new ValidateObjectIdMiddleware('adId'),
+        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId')
+      ]
+    });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -71,14 +118,6 @@ export default class AdController extends Controller {
     const {adId} = params;
     const result = await this.adService.findById(adId);
 
-    if (!result) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Advertising with ${adId} not found`,
-        'AdController'
-      );
-    }
-
     this.ok(res, fillDTO(AdResponse, result));
   }
 
@@ -88,13 +127,6 @@ export default class AdController extends Controller {
     const {adId} = params;
     const updatedAd = await this.adService.updateById(adId, body);
 
-    if (!updatedAd) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Advertising with ${adId} not found`,
-        'AdController'
-      );
-    }
     this.ok(res, fillDTO(AdResponse, updatedAd));
   }
 
@@ -103,14 +135,6 @@ export default class AdController extends Controller {
     res: Response ): Promise<void> {
     const {adId} = params;
     const deletedAd = await this.adService.deleteById(adId);
-
-    if (!deletedAd) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Advertising with ${adId} not found`,
-        'AdController'
-      );
-    }
 
     this.ok(res, fillDTO(AdResponse, deletedAd));
   }
@@ -121,14 +145,6 @@ export default class AdController extends Controller {
   ): Promise<void> {
     const {adId} = params;
     const comments = await this.commentService.findByAdId(adId);
-
-    if (!comments) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Comments for AD with id ${adId} not found`,
-        'AdController'
-      );
-    }
 
     this.ok(res, fillDTO(CommentResponse, comments));
   }
