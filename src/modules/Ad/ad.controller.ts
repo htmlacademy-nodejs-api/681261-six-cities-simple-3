@@ -58,10 +58,10 @@ export default class AdController extends Controller {
     }
 
     const result = await this.adService.create(body);
-    this.send(
+    const ad = await this.adService.findById(result.id);
+    this.created(
       res,
-      StatusCodes.CREATED,
-      fillDTO(AdResponse, result)
+      fillDTO(AdResponse, ad)
     );
   }
 
@@ -70,7 +70,15 @@ export default class AdController extends Controller {
     res: Response ): Promise<void> {
     const {adId} = params;
     const result = await this.adService.findById(adId);
-    console.log(result);
+
+    if (!result) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Advertising with ${adId} not found`,
+        'AdController'
+      );
+    }
+
     this.ok(res, fillDTO(AdResponse, result));
   }
 
@@ -79,6 +87,14 @@ export default class AdController extends Controller {
     res: Response ): Promise<void> {
     const {adId} = params;
     const updatedAd = await this.adService.updateById(adId, body);
+
+    if (!updatedAd) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Advertising with ${adId} not found`,
+        'AdController'
+      );
+    }
     this.ok(res, fillDTO(AdResponse, updatedAd));
   }
 
@@ -87,6 +103,15 @@ export default class AdController extends Controller {
     res: Response ): Promise<void> {
     const {adId} = params;
     const deletedAd = await this.adService.deleteById(adId);
+
+    if (!deletedAd) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Advertising with ${adId} not found`,
+        'AdController'
+      );
+    }
+
     this.ok(res, fillDTO(AdResponse, deletedAd));
   }
 
@@ -96,6 +121,15 @@ export default class AdController extends Controller {
   ): Promise<void> {
     const {adId} = params;
     const comments = await this.commentService.findByAdId(adId);
+
+    if (!comments) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Comments for AD with id ${adId} not found`,
+        'AdController'
+      );
+    }
+
     this.ok(res, fillDTO(CommentResponse, comments));
   }
 }
