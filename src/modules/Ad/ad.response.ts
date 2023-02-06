@@ -1,4 +1,6 @@
-import {Expose} from 'class-transformer';
+import {Expose, Type} from 'class-transformer';
+import UserResponse from '../user/user.response.js';
+import CommentResponse from '../comment/comment.response.js';
 
 export default class AdResponse {
   @Expose()
@@ -40,14 +42,20 @@ export default class AdResponse {
   @Expose()
   public facilities!: string;
 
-  @Expose()
-  public userId!: string;
+  @Expose({name: 'userId'})
+  @Type(() => UserResponse)
+  public user!: UserResponse;
 
   @Expose()
   public commentsAmount!: string;
 
-  @Expose()
-  public comments!: string;
+  //Вопрос
+  // Объясни еще раз как мы помещаем в поле ответа целый объект с данными
+  // До этого в базе мы хранили только id этих объектов
+  // Вобще нужно ли здесь отдавать комментарии, может их отедбным запросом получить?
+  @Expose({name: 'comments'})
+  @Type(() => CommentResponse)
+  public comments!: CommentResponse[];
 
   @Expose()
   public coordinates!: string;
