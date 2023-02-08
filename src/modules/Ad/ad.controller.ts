@@ -17,6 +17,7 @@ import {ValidateObjectIdMiddleware} from '../../middlewares/validate-objectId.mi
 import {ValidateDtoMiddleware} from '../../middlewares/validate-dto.middleware.js';
 import UpdateAdDto from './dto/update-ad.dto.js';
 import {DocumentExistsMiddleware} from '../../middlewares/document-exists.middleware.js';
+import {PrivateRouteMiddleware} from '../../middlewares/private-route.middleware.js';
 
 type ParamsGetAd = {
   adId: string
@@ -39,7 +40,7 @@ export default class AdController extends Controller {
       path: '/create',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateAdDto)]
+      middlewares: [new ValidateDtoMiddleware(CreateAdDto), new PrivateRouteMiddleware()]
     });
 
     this.addRoute({
@@ -59,7 +60,8 @@ export default class AdController extends Controller {
       middlewares: [
         new ValidateObjectIdMiddleware('adId'),
         new ValidateDtoMiddleware(UpdateAdDto),
-        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId')
+        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId'),
+        new PrivateRouteMiddleware()
       ]
     });
 
@@ -69,7 +71,8 @@ export default class AdController extends Controller {
       handler: this.delete,
       middlewares: [
         new ValidateObjectIdMiddleware('adId'),
-        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId')
+        new DocumentExistsMiddleware(this.adService, 'Ad', 'adId'),
+        new PrivateRouteMiddleware()
       ]
     });
 
@@ -91,7 +94,7 @@ export default class AdController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateAdDto>,
+    req: Request<object, object, CreateAdDto>,
     res: Response): Promise<void> {
 
     const existAd = false;
@@ -99,12 +102,12 @@ export default class AdController extends Controller {
     if (existAd) {
       throw new HttpError(
         StatusCodes.UNPROCESSABLE_ENTITY,
-        `Category with name «${body.name}» exists.`,
+        `Category with name «${req.body.name}» exists.`,
         'CategoryController'
       );
     }
 
-    const result = await this.adService.create(body);
+    const result = await this.adService.create({...req.body, userId: req.user.id});
     const ad = await this.adService.findById(result.id);
     this.created(
       res,
