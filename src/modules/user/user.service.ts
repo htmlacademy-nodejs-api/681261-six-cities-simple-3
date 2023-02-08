@@ -43,4 +43,9 @@ export default class UserService implements UserServiceInterface {
       .findByIdAndUpdate(userId, dto, {new: true})
       .exec();
   }
+
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.userModel
+      .exists({_id: documentId})) !== null;
+  }
 }

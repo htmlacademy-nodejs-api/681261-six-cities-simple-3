@@ -12,6 +12,9 @@ import {StatusCodes} from 'http-status-codes';
 import {fillDTO} from '../../utils/common.js';
 import UserResponse from './user.response.js';
 import {ValidateDtoMiddleware} from '../../middlewares/validate-dto.middleware.js';
+import {ValidateObjectIdMiddleware} from '../../middlewares/validate-objectId.middleware.js';
+import {UploadFileMiddleware} from '../../middlewares/upload-file.middleware.js';
+import {DocumentExistsMiddleware} from '../../middlewares/document-exists.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -28,6 +31,17 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
+    });
+
+    this.addRoute({
+      path: '/:userId/avatar',
+      method: HttpMethod.Post,
+      handler: this.uploadAvatar,
+      middlewares: [
+        new ValidateObjectIdMiddleware('userId'),
+        new DocumentExistsMiddleware(this.userService, 'User', 'userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+      ]
     });
   }
 
@@ -51,5 +65,11 @@ export default class UserController extends Controller {
       StatusCodes.CREATED,
       fillDTO(UserResponse, result)
     );
+  }
+
+  public async uploadAvatar(req: Request, res: Response) {
+    this.created(res, {
+      filepath: req.file?.path
+    });
   }
 }
