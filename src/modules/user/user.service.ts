@@ -7,7 +7,7 @@ import {DocumentType, types} from '@typegoose/typegoose';
 import {Component} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import UpdateUserDto from './dto/update-user.dto.js';
-import LoginUserDto from "./dto/login-user.dto";
+import LoginUserDto from './dto/login-user.dto.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
