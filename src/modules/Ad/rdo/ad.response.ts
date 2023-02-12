@@ -1,10 +1,15 @@
 import {Expose, Type} from 'class-transformer';
-import UserResponse from '../user/user.response.js';
-import CommentResponse from '../comment/comment.response.js';
+import UserResponse from '../../user/user.response.js';
 
 export default class AdResponse {
   @Expose()
   public id!: string;
+
+  @Expose()
+  public price!: number;
+
+  @Expose()
+  public createdDate!: Date;
 
   @Expose()
   public name!: string;
@@ -37,9 +42,6 @@ export default class AdResponse {
   public guestCapacity!: string;
 
   @Expose()
-  public price!: string;
-
-  @Expose()
   public facilities!: string;
 
   @Expose({name: 'userId'})
@@ -48,14 +50,6 @@ export default class AdResponse {
 
   @Expose()
   public commentsAmount!: string;
-
-  //Вопрос
-  // Объясни еще раз как мы помещаем в поле ответа целый объект с данными
-  // До этого в базе мы хранили только id этих объектов
-  // Вобще нужно ли здесь отдавать комментарии, может их отедбным запросом получить?
-  @Expose({name: 'comments'})
-  @Type(() => CommentResponse)
-  public comments!: CommentResponse[];
 
   @Expose()
   public coordinates!: string;

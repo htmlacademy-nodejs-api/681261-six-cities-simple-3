@@ -1,4 +1,3 @@
-
 export const Component = {
   Application: Symbol.for('Application'),
   LoggerInterface: Symbol.for('LoggerInterface'),
@@ -12,5 +11,6 @@ export const Component = {
   CommentModel: Symbol.for('CommentModel'),
   AdController: Symbol.for('AdController'),
   ExceptionFilterInterface: Symbol.for('ExceptionFilterInterface'),
-  UserController: Symbol.for('UserController')
+  UserController: Symbol.for('UserController'),
+  CommentController: Symbol.for('CommentController')
 } as const;

@@ -25,8 +25,8 @@ export default class AdService implements AdServiceInterface {
     return this.adModel.findById(id).populate(['userId']).exec();
   }
 
-  public async find(): Promise<DocumentType<AdEntity>[]> {
-    return this.adModel.find();
+  public async find(limit: number): Promise<DocumentType<AdEntity>[]> {
+    return this.adModel.find().limit(limit).sort({createdDate: -1});
   }
 
   public async deleteById(id: string): Promise<DocumentType<AdEntity> | null> {

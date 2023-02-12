@@ -65,7 +65,6 @@ export default class UpdateAdDto {
   public price?: number;
 
   @IsArray({message: `facilities ${ERROR_MESSAGE.NOT_ARRAY}`})
-  @IsEnum(Facilities, {message: `facilities ${ERROR_MESSAGE.INVALID_ENUM_TYPE}`})
   public facilities?: Facilities[];
 
   @IsArray({message: `coordinates ${ERROR_MESSAGE.NOT_ARRAY}`})
