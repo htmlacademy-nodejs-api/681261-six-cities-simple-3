@@ -5,7 +5,6 @@ import {
   IsArray, IsBoolean,
   IsDateString,
   IsEnum, IsInt,
-  IsMongoId,
   IsString,
   Max,
   MaxLength,
@@ -15,7 +14,6 @@ import {
 import {ERROR_MESSAGE} from '../../../constants/error-message.constant.js';
 
 export default class CreateAdDto {
-  @IsString({message: `preview ${ERROR_MESSAGE.NOT_STRING}`})
   @MinLength(10, {message: `name ${ERROR_MESSAGE.MIN_LENGTH} 10`})
   @MaxLength(100, {message: `name ${ERROR_MESSAGE.MAX_LENGTH} 100`})
   public name!: string;
@@ -63,10 +61,8 @@ export default class CreateAdDto {
   public price!: number;
 
   @IsArray({message: `facilities ${ERROR_MESSAGE.NOT_ARRAY}`})
-  @IsEnum(Facilities, {message: `facilities ${ERROR_MESSAGE.INVALID_ENUM_TYPE}`})
   public facilities!: Facilities[];
 
-  @IsMongoId({message: `userId ${ERROR_MESSAGE.INVALID_ID}`})
   public userId!: string;
 
   public commentsAmount!: number;
