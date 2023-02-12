@@ -1,3 +1,4 @@
+
 export type MockData = {
   names: string[];
   descriptions: string[];
@@ -7,4 +8,6 @@ export type MockData = {
   preview: string[],
   apartmentType: string[],
   facilities: string[]
+  authorNames: string[],
+  userTypes: string[]
 };

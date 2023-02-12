@@ -7,7 +7,7 @@ import {HttpMethod} from '../../types/http-method.enum.js';
 import {AdServiceInterface} from './ad-service.interface.js';
 import {StatusCodes} from 'http-status-codes';
 import {fillDTO} from '../../utils/common.js';
-import AdResponse from './ad.response.js';
+import AdResponse from './rdo/ad.response.js';
 import CreateAdDto from './dto/create-ad.dto.js';
 import HttpError from '../../common/errors/http-error.js';
 import * as core from 'express-serve-static-core';
@@ -18,10 +18,13 @@ import {ValidateDtoMiddleware} from '../../middlewares/validate-dto.middleware.j
 import UpdateAdDto from './dto/update-ad.dto.js';
 import {DocumentExistsMiddleware} from '../../middlewares/document-exists.middleware.js';
 import {PrivateRouteMiddleware} from '../../middlewares/private-route.middleware.js';
+import AdListResponse from './rdo/ad-list.response.js';
 
 type ParamsGetAd = {
   adId: string
 }
+
+const DEFAULT_AD_LIMIT = 60;
 
 @injectable()
 export default class AdController extends Controller {
@@ -35,6 +38,7 @@ export default class AdController extends Controller {
     this.logger.info('Register routes for AdController…');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
+
 
     this.addRoute({
       path: '/create',
@@ -87,9 +91,13 @@ export default class AdController extends Controller {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const ads = await this.adService.find();
-    const categoryResponse = fillDTO(AdResponse, ads);
+  public async index(
+    { body }: Request<core.ParamsDictionary | ParamsGetAd>,
+    res: Response
+  ): Promise<void> {
+    const limit = body.limit || DEFAULT_AD_LIMIT;
+    const ads = await this.adService.find(Number(limit));
+    const categoryResponse = fillDTO(AdListResponse, ads);
     this.send(res, StatusCodes.OK, categoryResponse);
   }
 
@@ -103,7 +111,7 @@ export default class AdController extends Controller {
       throw new HttpError(
         StatusCodes.UNPROCESSABLE_ENTITY,
         `Category with name «${req.body.name}» exists.`,
-        'CategoryController'
+        'AdController '
       );
     }
 
@@ -128,6 +136,7 @@ export default class AdController extends Controller {
     { params, body }: Request<core.ParamsDictionary | ParamsGetAd>,
     res: Response ): Promise<void> {
     const {adId} = params;
+
     const updatedAd = await this.adService.updateById(adId, body);
 
     this.ok(res, fillDTO(AdResponse, updatedAd));

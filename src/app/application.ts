@@ -21,6 +21,7 @@ export default class Application {
     @inject(Component.AdController) private adController: ControllerInterface,
     @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
     @inject(Component.UserController) private userController: ControllerInterface,
+    @inject(Component.CommentController) private commentController: ControllerInterface,
   ) {
     this.expressApp = express();
   }
@@ -32,6 +33,7 @@ export default class Application {
   public initRoutes() {
     this.expressApp.use('/advertisements', this.adController.router);
     this.expressApp.use('/users', this.userController.router);
+    this.expressApp.use('/comments', this.commentController.router);
   }
 
   public initMiddleware() {

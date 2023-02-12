@@ -1,10 +1,10 @@
-import {IsDateString, IsInt, IsMongoId, IsString, Max, Min} from 'class-validator';
+import {IsDateString, IsInt, IsMongoId, IsString, MaxLength, MinLength} from 'class-validator';
 import {ERROR_MESSAGE} from '../../../constants/error-message.constant.js';
 
 export default class CreateCommentDto {
   @IsString({message: `text ${ERROR_MESSAGE.NOT_STRING}`})
-  @Min(5, {message: `text ${ERROR_MESSAGE.MIN_INT_VALUE} 5`})
-  @Max(1024, {message: `text ${ERROR_MESSAGE.MAX_INT_VALUE} 1024`})
+  @MinLength(5, {message: `text ${ERROR_MESSAGE.MIN_INT_VALUE} 5`})
+  @MaxLength(1024, {message: `text ${ERROR_MESSAGE.MAX_INT_VALUE} 1024`})
   public text!: string;
 
   @IsDateString({}, {message: `time ${ERROR_MESSAGE.VALID_DATE}`})

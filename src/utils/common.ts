@@ -7,16 +7,17 @@ import crypto from 'crypto';
 import * as jose from 'jose';
 
 export const createAd = (row: string) => {
-
-  const tokens = row.replace('\n', '').split('\t');
-  const [name, description, createdDate, city, preview, pictures, isPremium, rating, apartmentType, roomsAmount, guestCapacity, price, facilities, userName, email, password, avatarImg, type, commentsAmount, coordinates] = tokens;
+  const tokens = row.replace('\n', '');
+  const splitToken = tokens.split('/t');
+  const [name, description, pictures, createdDate, adType, city, preview, isPremium, rating, apartmentType, roomsAmount, guestCapacity, price, facilities, userName, email, password, avatarImg, userType, commentsAmount, coordinates] = splitToken;
   return {
     name,
     description,
+    pictures: pictures.split(','),
     createdDate: new Date(createdDate),
     city,
+    type: adType,
     preview,
-    pictures: pictures.split(','),
     isPremium: Boolean(isPremium),
     rating: Number(rating),
     apartmentType: apartmentType as ApartmentType,
@@ -24,7 +25,7 @@ export const createAd = (row: string) => {
     guestCapacity: Number(guestCapacity),
     price: Number.parseInt(price, 10),
     facilities: facilities.split(',') as Facilities[],
-    user: {name: userName, email, password, avatarImg, type},
+    user: {name: userName, email, password, avatarImg, type: userType},
     commentsAmount: Number(commentsAmount),
     coordinates: coordinates.split(',')
   } as Ad;
