@@ -7,7 +7,7 @@ import {DocumentExistsInterface} from '../../types/document-exists.interface.js'
 export interface AdServiceInterface extends DocumentExistsInterface{
   create(dto: CreateAdDto): Promise<DocumentType<AdEntity>>;
   findById(id: string): Promise<DocumentType<AdEntity> | null>;
-  find(): Promise<DocumentType<AdEntity>[]>;
+  find(limit: number): Promise<DocumentType<AdEntity>[]>;
   updateById(id: string, dto: updateAdDto): Promise<DocumentType<AdEntity> | null>;
   deleteById(id: string): Promise<DocumentType<AdEntity> | null>;
   incCommentCount(adId: string): Promise<DocumentType<AdEntity> | null>

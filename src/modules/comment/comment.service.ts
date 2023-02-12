@@ -6,6 +6,8 @@ import {CommentEntity} from './comment.entity.js';
 import {ModelType} from '@typegoose/typegoose/lib/types.js';
 import CreateCommentDto from './dto/create-comment.dto.js';
 
+const COMMENTS_LIMIT = 50;
+
 @injectable()
 export default class CommentService implements CommentServiceInterface {
   constructor(
@@ -13,7 +15,7 @@ export default class CommentService implements CommentServiceInterface {
   ) {}
 
   public async findByAdId(adId:string): Promise<DocumentType<CommentEntity>[]> {
-    return this.commentModel.find({adId}).populate('userId');
+    return this.commentModel.find({adId}).populate('userId').sort({time: -1}).limit(COMMENTS_LIMIT);
   }
 
   public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
