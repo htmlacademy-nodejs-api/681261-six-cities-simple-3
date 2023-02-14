@@ -9,13 +9,13 @@ export interface CommentEntity extends defaultClasses.Base {}
   }
 })
 export class CommentEntity extends defaultClasses.TimeStamps {
-  @prop()
+  @prop({required: true})
   public text!: string;
 
-  @prop()
+  @prop({required: true})
   public time!: Date;
 
-  @prop()
+  @prop({required: true})
   public rating!: number;
 
   @prop({
