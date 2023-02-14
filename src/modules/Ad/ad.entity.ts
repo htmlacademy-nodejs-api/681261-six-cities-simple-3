@@ -14,13 +14,13 @@ export interface AdEntity extends defaultClasses.Base {}
 })
 export class AdEntity extends defaultClasses.TimeStamps {
 
-  @prop({ required: true, minlength: 10, maxlength: 100 })
+  @prop({ minlength: 10, maxlength: 100 })
   public name!: string;
 
-  @prop({required: true, minlength: 20, maxlength: 1024})
+  @prop({ minlength: 20, maxlength: 1024})
   public description!: string;
 
-  @prop({required: true})
+  @prop()
   public createdDate!: Date;
 
   @prop({
@@ -29,16 +29,16 @@ export class AdEntity extends defaultClasses.TimeStamps {
   })
   public city!: CityEnum;
 
-  @prop({required: true})
+  @prop()
   public preview!: string;
 
-  @prop({required: true})
+  @prop()
   public pictures!: string[];
 
-  @prop({required: true})
+  @prop()
   public isPremium!: boolean;
 
-  @prop({required: true, min: 1, max: 5})
+  @prop({min: 1, max: 5})
   public rating!: number;
 
   @prop({
@@ -47,16 +47,16 @@ export class AdEntity extends defaultClasses.TimeStamps {
   })
   public apartmentType!: ApartmentType;
 
-  @prop({required: true, min: 1, max: 8})
+  @prop({min: 1, max: 8})
   public roomsAmount!: number;
 
-  @prop({required: true, min: 1, max: 10})
+  @prop({min: 1, max: 10})
   public guestCapacity!: number;
 
-  @prop({required: true, min: 100, max: 100000})
+  @prop({min: 100, max: 100000})
   public price!: number;
 
-  @prop({required: true})
+  @prop()
   public facilities!: Facilities[];
 
   @prop({
@@ -77,7 +77,7 @@ export class AdEntity extends defaultClasses.TimeStamps {
   })
   public comments!: string[];
 
-  @prop({required: true})
+  @prop()
   public coordinates!: string[];
 }
 
